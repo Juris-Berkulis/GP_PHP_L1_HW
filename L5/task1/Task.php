@@ -9,6 +9,8 @@ class Task
     private bool $isDone = false;
     public User $user;
 
+    private array $comments;
+
     function __construct (User $user, ?string $description, int $priority = 1)
     {
         $this->user = $user;
@@ -82,4 +84,17 @@ class Task
     public function setIsDone(bool $value) {
         $this->isDone = $value;
     }
+
+    public function getComments () {
+        return $this->comments;
+    }
+
+    public function addComments (string $name, int $id, string $text) {
+        $this->comments[$id][$name] = $text;
+    }
+
+    public function deleteComments (int $id) {
+        unset($this->comments[$id]);
+    }
+
 }
