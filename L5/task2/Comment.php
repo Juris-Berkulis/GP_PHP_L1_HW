@@ -9,10 +9,10 @@ class Comment
 
     public function __construct(User $author, Task $task, string $text)
     {
-        $this->setId();
         $this->setAuthor($author);
         $this->setTask($task);
         $this->setText($text);
+        $this->setId();
     }
 
     public function getId()
@@ -22,7 +22,7 @@ class Comment
 
     private function setId()
     {
-        $this->id = round(microtime(true) * 10000);
+        $this->id = microtime(true) * 10000 + rand();
     }
 
     public function getAuthor()
