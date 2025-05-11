@@ -47,7 +47,7 @@ class Task
 
     private function setDateDone () {
         $this->setDateUpdated();
-        $this->dateDone = $this->getDateUpdated();
+        $this->dateDone = $this->isDone ? $this->getDateUpdated() : null;
     }
 
     public function getDescription () {
