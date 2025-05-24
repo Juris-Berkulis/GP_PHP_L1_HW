@@ -17,6 +17,8 @@
 
         <input name="newTaskDescription">
     </label>
+
+    <button type="submit">Создать</button>
 </form>
 
 <div>
