@@ -19,6 +19,8 @@ if (isset($_SESSION['username'])) {
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     unset($_SESSION['username']);
     session_destroy();
+    header('location: tasks');
+    die();
 }
 
 include "L6/view/index.php";
