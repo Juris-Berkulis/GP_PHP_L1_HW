@@ -1,9 +1,11 @@
 <?php
+require_once 'L6/model/User.php';
+
 session_start();
+
 $pageHeader = "Задачи";
 
 $username = null;
-
 
 if (isset($_SESSION['username'])) {
     $user = $_SESSION['username'];
@@ -20,4 +22,4 @@ $tasks = [
     'Починить компьютер'
 ];
 
-include "view/tasks.php";
+include "L6/view/tasks.php";

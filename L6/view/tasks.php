@@ -6,8 +6,11 @@
 </head>
 <body>
 <h1><?= $pageHeader ?></h1>
+
 <?php include "menu.php" ?>
+
 <br>
+
 <?php foreach ($tasks as $task):?>
     <div>
         <?=$task?> [Done]

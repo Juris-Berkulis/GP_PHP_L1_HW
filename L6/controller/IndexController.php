@@ -1,5 +1,6 @@
 <?php
-require_once 'model/User.php';
+require_once 'L6/model/User.php';
+
 session_start();
 
 echo "<pre>";
@@ -9,6 +10,7 @@ echo "</pre>";
 $pageHeader = 'Добро пожаловать';
 
 $username = null;
+
 if (isset($_SESSION['username'])) {
     $user = $_SESSION['username'];
     $username = $user->getUsername();
@@ -19,4 +21,4 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_destroy();
 }
 
-include "view/index.php";
+include "L6/view/index.php";
