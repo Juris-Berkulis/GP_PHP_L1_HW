@@ -11,11 +11,11 @@
 
 <br>
 
-<form action="?controller=tasks" method="post">
+<form action="/?controller=tasks&action=addTask" method="post">
     <label>
         Создать задачу:
 
-        <input name="newTaskDescription">
+        <input name="newTaskDescription" placeholder="Описание задачи">
     </label>
 
     <button type="submit">Создать</button>
@@ -24,11 +24,11 @@
 <div>
     <span>Показать: </span>
 
-    <a href="?controller=tasks&showTasks=undone">Невыполненные</a>
+    <a href="/?controller=tasks&showTasks=undone">Невыполненные</a>
 
-    <a href="?controller=tasks&showTasks=done">Выполненные</a>
+    <a href="/?controller=tasks&showTasks=done">Выполненные</a>
 
-    <a href="?controller=tasks">Все</a>
+    <a href="/?controller=tasks">Все</a>
 </div>
 
 <div>
@@ -36,9 +36,9 @@
         <div>
             <span><?=$task->getDescription()?></span>
 
-            <a href="?controller=tasks&action=updateDone&taskKey=<?=$task->getId() ?>"><?=$task->getIsDone() ? 'Отменить' : 'Подтвердить' ?></a>
+            <a href="/?controller=tasks&action=updateDone&taskId=<?=$task->getId() ?>"><?=$task->getIsDone() ? 'Отменить' : 'Подтвердить' ?></a>
 
-            <a href="?controller=tasks&action=delete&taskKey=<?=$task->getId() ?>">Удалить</a>
+            <a href="/?controller=tasks&action=delete&taskId=<?=$task->getId() ?>">Удалить</a>
         </div>
     <?php endforeach;?>
 </div>

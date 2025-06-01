@@ -13,7 +13,7 @@ $pageHeader = "Задачи";
 
 $username = null;
 
-$tasks = TaskProvider::getAllList() ?? [];
+$tasks = TaskProvider::getAllList();
 
 if (isset($_SESSION['username'])) {
     $user = $_SESSION['username'];
@@ -28,31 +28,30 @@ if (isset($_GET['showTasks']) && $_GET['showTasks'] === 'done') {
     $tasks = TaskProvider::getDoneList();
 }
 
-if (isset($_REQUEST['newTaskDescription'])) {
-    $task = new Task($_REQUEST['newTaskDescription']);
+if (isset($_GET['action']) && $_GET['action'] === 'addTask' && isset($_POST['newTaskDescription'])) {
+    $newTaskDescriptionSafe = strip_tags($_POST['newTaskDescription']);
+    $task = new Task($newTaskDescriptionSafe);
     TaskProvider::addTask($task);
 
-    header('location: ?controller=tasks');
+    header('location: /?controller=tasks');
+    die();
 }
 
 if (isset($_GET['action']) && $_GET['action'] === 'updateDone') {
-    $taskKey = $_GET['taskKey'];
+    $taskId = $_GET['taskId'];
 
-    if (isset($_SESSION['tasks'])) {
-        $_SESSION['tasks'][$taskKey]->setIsDone(!$_SESSION['tasks'][$taskKey]->getIsDone());
-    }
+    TaskProvider::updateDone($taskId);
 
-    header('location: ?controller=tasks');
+    header('location: /?controller=tasks');
+    die();
 }
 
 if (isset($_GET['action']) && $_GET['action'] === 'delete') {
-    $taskKey = $_GET['taskKey'];
+    $taskId = $_GET['taskId'];
+    TaskProvider::deleteTask($taskId);
 
-    if (isset($_SESSION['tasks'])) {
-        unset($_SESSION['tasks'][$taskKey]);
-    }
-
-    header('location: ?controller=tasks');
+    header('location: /?controller=tasks');
+    die();
 }
 
 include "L6/view/tasks.php";

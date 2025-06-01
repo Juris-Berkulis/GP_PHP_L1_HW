@@ -16,6 +16,7 @@ if (isset($_POST['username'], $_POST['password'])) {
         $error = 'Пользователь с указанными учетными данными не найден';
     } else {
         $_SESSION['username'] = $user;
+
         header("Location: index.php");
         die();
     }
@@ -24,6 +25,7 @@ if (isset($_POST['username'], $_POST['password'])) {
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     unset($_SESSION['username']);
     session_destroy();
+
     header('location: /');
     die();
 }
