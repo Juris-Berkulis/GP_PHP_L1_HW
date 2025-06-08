@@ -9,7 +9,7 @@ include 'L7/model/UserProvider.php';
 
 $pdo = include 'L7/db.php';
 
-$pdo->exec('CREATE TABLE users (
+$pdo->exec('CREATE TABLE IF NOT EXISTS users (
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   name VARCHAR(150),
   username VARCHAR(100) NOT NULL,
@@ -21,5 +21,12 @@ $user->setName('Juris');
 
 $userProvider = new UserProvider($pdo);
 $userProvider->registerUser($user, '123');
+
+$pdo->exec('CREATE TABLE IF NOT EXISTS tasks (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    description VARCHAR(150) NOT NULL,
+    isDone TINYINT NOT NULL,
+    userId INTEGER NOT NULL
+)');
 
 echo 'Перегрузка базы данных выполнена успешно!';

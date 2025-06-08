@@ -13,6 +13,11 @@ class User
         $this->username = $username;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getUsername(): string
     {
         return $this->username;

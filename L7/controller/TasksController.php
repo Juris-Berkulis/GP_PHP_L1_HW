@@ -11,36 +11,48 @@ echo "</pre>";
 
 $pageHeader = "Задачи";
 
+$user = null;
 $username = null;
 
-$tasks = TaskProvider::getAllList();
+$pdo = include 'L7/db.php';
+
+$taskProvider = new TaskProvider($pdo);
 
 if (isset($_SESSION['username'])) {
     $user = $_SESSION['username'];
+
+    if (!$user) {
+        header('location: /');
+        die();
+    }
+
     $username = $user->getUsername();
 }
 
+$tasks = $taskProvider->getAllList($user->getId());
+
 if (isset($_GET['showTasks']) && $_GET['showTasks'] === 'undone') {
-    $tasks = TaskProvider::getUndoneList();
+    $tasks = $taskProvider->getUndoneList($user->getId());
 }
 
 if (isset($_GET['showTasks']) && $_GET['showTasks'] === 'done') {
-    $tasks = TaskProvider::getDoneList();
+    $tasks = $taskProvider->getDoneList($user->getId());
 }
 
 if (isset($_GET['action']) && $_GET['action'] === 'addTask' && isset($_POST['newTaskDescription'])) {
     $newTaskDescriptionSafe = strip_tags($_POST['newTaskDescription']);
     $task = new Task($newTaskDescriptionSafe);
-    TaskProvider::addTask($task);
+    $taskProvider->addTask($task, $user->getId());
 
     header('location: /?controller=tasks');
     die();
 }
 
-if (isset($_GET['action']) && $_GET['action'] === 'updateDone') {
+if (isset($_GET['action']) && $_GET['action'] === 'updateDone' && isset($_GET['isTaskDone'])) {
     $taskId = $_GET['taskId'];
+    $isTaskDone = $_GET['isTaskDone'];
 
-    TaskProvider::updateDone($taskId);
+    $taskProvider->updateDone($taskId, $isTaskDone, $user->getId());
 
     header('location: /?controller=tasks');
     die();
@@ -48,7 +60,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'updateDone') {
 
 if (isset($_GET['action']) && $_GET['action'] === 'delete') {
     $taskId = $_GET['taskId'];
-    TaskProvider::deleteTask($taskId);
+    $taskProvider->deleteTask($taskId, $user->getId());
 
     header('location: /?controller=tasks');
     die();

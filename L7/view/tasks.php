@@ -36,7 +36,7 @@
         <div>
             <span><?=$task->getDescription()?></span>
 
-            <a href="/?controller=tasks&action=updateDone&taskId=<?=$task->getId() ?>"><?=$task->getIsDone() ? 'Отменить' : 'Подтвердить' ?></a>
+            <a href="/?controller=tasks&action=updateDone&isTaskDone=<?=!$task->getIsDone() ?>&taskId=<?=$task->getId() ?>"><?=$task->getIsDone() ? 'Отменить' : 'Подтвердить' ?></a>
 
             <a href="/?controller=tasks&action=delete&taskId=<?=$task->getId() ?>">Удалить</a>
         </div>

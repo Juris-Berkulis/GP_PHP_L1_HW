@@ -8,7 +8,9 @@ class Task
 
     private bool $isDone;
 
-    function __construct(string $description, $isDone = false)
+    private int $userId;
+
+    function __construct(string $description = '', $isDone = false)
     {
         $this->id = microtime(true) * 10000 + rand();
         $this->description = $description;
@@ -39,4 +41,10 @@ class Task
     {
         $this->isDone = $isDone;
     }
+
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
 }

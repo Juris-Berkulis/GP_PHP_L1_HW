@@ -2,40 +2,95 @@
 
 class TaskProvider
 {
-    public static function getUndoneList()
+    private PDO $pdo;
+
+    public function __construct($pdo)
     {
-        $tasks = $_SESSION['tasks'] ?? [];
-        return array_filter($tasks, fn($task) => !$task->getIsDone());
+        $this->pdo = $pdo;
     }
 
-    public static function getDoneList()
+    public function getUndoneList($userId)
     {
-        $tasks = $_SESSION['tasks'] ?? [];
-        return array_filter($tasks, fn($task) => $task->getIsDone());
+        $statement = $this->pdo->prepare(
+            'SELECT * FROM tasks WHERE userId = :userId AND isDone = :isDone'
+        );
+
+        $statement->execute([
+            'userId' => $userId,
+            'isDone' => false,
+        ]);
+
+        return $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Task::class);
     }
 
-    public static function getAllList()
+    public function getDoneList($userId)
     {
-        $tasks = $_SESSION['tasks'] ?? [];
-        return $tasks;
+        $statement = $this->pdo->prepare(
+            'SELECT * FROM tasks WHERE userId = :userId AND isDone = :isDone'
+        );
+
+        $statement->execute([
+            'userId' => $userId,
+            'isDone' => true,
+        ]);
+
+        return $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Task::class);
     }
 
-    public static function addTask(Task $task)
+    public function getAllList(int $userId)
     {
-        $_SESSION['tasks'][$task->getId()] = $task;
+        $statement = $this->pdo->prepare(
+            'SELECT * FROM tasks WHERE userId = :userId'
+        );
+
+        $statement->execute([
+            'userId' => $userId,
+        ]);
+
+        return $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, Task::class);
     }
 
-    public static function deleteTask(string $id)
+    public function addTask(Task $task, int $userId)
     {
-        if (isset($_SESSION['tasks'], $_SESSION['tasks'][$id])) {
-            unset($_SESSION['tasks'][$id]);
-        }
+        $statement = $this->pdo->prepare(
+            'INSERT INTO tasks (description, isDone, userId) VALUES (:description, :isDone, :userId)'
+        );
+
+        $statement->execute([
+            'description' => $task->getDescription(),
+            'isDone' => $task->getIsDone(),
+            'userId' => $userId,
+        ]);
+
+        return $statement->rowCount();
     }
 
-    public static function updateDone(string $id)
+    public function deleteTask(string $id, int $userId)
     {
-        if (isset($_SESSION['tasks'], $_SESSION['tasks'][$id])) {
-            $_SESSION['tasks'][$id]->setIsDone(!$_SESSION['tasks'][$id]->getIsDone());
-        }
+        $statement = $this->pdo->prepare(
+            'DELETE FROM tasks WHERE id = :id AND userId = :userId'
+        );
+
+        $statement->execute([
+            'id' => $id,
+            'userId' => $userId,
+        ]);
+
+        return $statement->rowCount();
+    }
+
+    public function updateDone(string $id, bool $isTaskDone, $userId)
+    {
+        $statement = $this->pdo->prepare(
+            'UPDATE tasks SET isDone = :isDone WHERE id = :id AND userId = :userId'
+        );
+
+        $statement->execute([
+            'isDone' => $isTaskDone,
+            'id' => $id,
+            'userId' => $userId,
+        ]);
+
+        return $statement->rowCount();
     }
 }
