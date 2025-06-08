@@ -1,12 +1,19 @@
 <?php
-require_once 'model/User.php';
-session_start();
-$pageHeader = 'Добро пожаловать в TODO';
+require_once 'L6/model/User.php';
 
-//Получаем текущего пользователя, если он залогинен
+session_start();
+
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
+$pageHeader = 'Добро пожаловать';
+
 $username = null;
-if (isset($_SESSION['user'])) {
-    $username = $_SESSION['user']->getUsername();
+
+if (isset($_SESSION['username'])) {
+    $user = $_SESSION['username'];
+    $username = $user->getUsername();
 }
 
-include "view/index.php";
+include "L6/view/index.php";

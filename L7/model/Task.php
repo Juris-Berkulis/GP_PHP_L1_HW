@@ -2,40 +2,41 @@
 
 class Task
 {
+    private string $id;
+
     private string $description;
-    private bool $isDone = false;
 
+    private bool $isDone;
 
-    public function __construct(string $description)
+    function __construct(string $description, $isDone = false)
     {
+        $this->id = microtime(true) * 10000 + rand();
         $this->description = $description;
+        $this->isDone = $isDone;
     }
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
     public function getDescription(): string
     {
         return $this->description;
     }
 
-
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-
-    public function isDone(): bool
+    public function getIsDone(): bool
     {
         return $this->isDone;
     }
-
 
     public function setIsDone(bool $isDone): void
     {
         $this->isDone = $isDone;
     }
-
-
-
-
 }

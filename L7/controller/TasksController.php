@@ -1,43 +1,57 @@
 <?php
-include_once "model/Task.php";
-include_once "model/TaskProvider.php";
-include_once "model/User.php";
+require_once 'L6/model/User.php';
+include_once 'L6/model/Task.php';
+include_once 'L6/model/TaskProvider.php';
 
 session_start();
+
 echo "<pre>";
 print_r($_SESSION);
 echo "</pre>";
+
 $pageHeader = "Задачи";
 
-//Получаем текущего пользователя, если он залогинен
 $username = null;
-if (isset($_SESSION['user'])) {
-    $username = $_SESSION['user']->getUsername();
-} else {
-    //Перенаправим на главную если пользователь не залогинен
-    header("Location: /");
+
+$tasks = TaskProvider::getAllList();
+
+if (isset($_SESSION['username'])) {
+    $user = $_SESSION['username'];
+    $username = $user->getUsername();
+}
+
+if (isset($_GET['showTasks']) && $_GET['showTasks'] === 'undone') {
+    $tasks = TaskProvider::getUndoneList();
+}
+
+if (isset($_GET['showTasks']) && $_GET['showTasks'] === 'done') {
+    $tasks = TaskProvider::getDoneList();
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'addTask' && isset($_POST['newTaskDescription'])) {
+    $newTaskDescriptionSafe = strip_tags($_POST['newTaskDescription']);
+    $task = new Task($newTaskDescriptionSafe);
+    TaskProvider::addTask($task);
+
+    header('location: /?controller=tasks');
     die();
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'updateDone') {
+    $taskId = $_GET['taskId'];
 
-$taskProvider = new TaskProvider();
+    TaskProvider::updateDone($taskId);
 
-//Сделаем метод добавления новой задачи и сохранения ее в сессии
-if (isset($_GET['action']) && $_GET['action'] === 'add') {
-    $taskText = strip_tags($_POST['task']);
-    $taskProvider->addTask(new Task($taskText));
-    header("Location: /?controller=tasks");
+    header('location: /?controller=tasks');
     die();
 }
 
-if (isset($_GET['action']) && $_GET['action'] === 'done') {
-    $key = $_GET['key'];
-    $taskProvider->deleteTask($key);
-    header("Location: /?controller=tasks");
+if (isset($_GET['action']) && $_GET['action'] === 'delete') {
+    $taskId = $_GET['taskId'];
+    TaskProvider::deleteTask($taskId);
+
+    header('location: /?controller=tasks');
     die();
 }
 
-
-$tasks = $taskProvider->getUndoneList();
-
-include "view/tasks.php";
+include "L6/view/tasks.php";

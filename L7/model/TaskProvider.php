@@ -2,56 +2,40 @@
 
 class TaskProvider
 {
-    //хранилище задач
-    private array $tasks;
-
-    public function __construct()
+    public static function getUndoneList()
     {
-        //при создании хранилища читаем задачи из сессии
-        $this->tasks = $_SESSION['tasks'] ?? [];
+        $tasks = $_SESSION['tasks'] ?? [];
+        return array_filter($tasks, fn($task) => !$task->getIsDone());
     }
 
-
-    /**
-     * Метод возвращающий массив не выполненных задач из объекта
-     * @return array
-     */
-    public function getUndoneList(): array
+    public static function getDoneList()
     {
+        $tasks = $_SESSION['tasks'] ?? [];
+        return array_filter($tasks, fn($task) => $task->getIsDone());
+    }
 
-
-        /*
-         return array_map(function (Task $task) {
-                    return $task->isDone() ?: $task;
-                }, $this->tasks);
-
-
-
-        /**
-         * @var Task $task
-         */
-        $tasks = [];
-        foreach ($this->tasks as $key => $task) {
-            if (!$task->isDone()) {
-                $tasks[$key] = $task;
-            }
-        }
-
-
+    public static function getAllList()
+    {
+        $tasks = $_SESSION['tasks'] ?? [];
         return $tasks;
     }
 
-    public function addTask(Task $task): void
+    public static function addTask(Task $task)
     {
-        $_SESSION['tasks'][] = $task;
-        $this->tasks[] = $task;
+        $_SESSION['tasks'][$task->getId()] = $task;
     }
 
-    public function deleteTask(int $key): void
+    public static function deleteTask(string $id)
     {
-        unset($_SESSION['tasks'][$key]);
-        unset($this->tasks[$key]);
+        if (isset($_SESSION['tasks'], $_SESSION['tasks'][$id])) {
+            unset($_SESSION['tasks'][$id]);
+        }
     }
 
-
+    public static function updateDone(string $id)
+    {
+        if (isset($_SESSION['tasks'], $_SESSION['tasks'][$id])) {
+            $_SESSION['tasks'][$id]->setIsDone(!$_SESSION['tasks'][$id]->getIsDone());
+        }
+    }
 }
