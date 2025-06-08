@@ -4,12 +4,14 @@ require_once 'L7/model/UserProvider.php';
 
 session_start();
 
+$pdo = include 'L7/db.php';
+
 $error = null;
 
 if (isset($_POST['username'], $_POST['password'])) {
     ['username' => $username, 'password' => $password] = $_POST;
 
-    $userProvider = new UserProvider();
+    $userProvider = new UserProvider($pdo);
     $user = $userProvider->getByUsernameAndPassword($username, $password);
 
     if ($user === null) {
