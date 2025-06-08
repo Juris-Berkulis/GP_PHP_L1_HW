@@ -1,6 +1,6 @@
 <?php
-require_once 'L6/model/User.php';
-require_once 'L6/model/UserProvider.php';
+require_once 'L7/model/User.php';
+require_once 'L7/model/UserProvider.php';
 
 session_start();
 
@@ -30,4 +30,4 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     die();
 }
 
-include "L6/view/signin.php";
+include "L7/view/signin.php";

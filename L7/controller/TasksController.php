@@ -1,7 +1,7 @@
 <?php
-require_once 'L6/model/User.php';
-include_once 'L6/model/Task.php';
-include_once 'L6/model/TaskProvider.php';
+require_once 'L7/model/User.php';
+include_once 'L7/model/Task.php';
+include_once 'L7/model/TaskProvider.php';
 
 session_start();
 
@@ -54,4 +54,4 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
     die();
 }
 
-include "L6/view/tasks.php";
+include "L7/view/tasks.php";

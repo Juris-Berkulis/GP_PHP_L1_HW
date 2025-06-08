@@ -1,5 +1,5 @@
 <?php
-require_once 'L6/model/User.php';
+require_once 'L7/model/User.php';
 
 session_start();
 
@@ -16,4 +16,4 @@ if (isset($_SESSION['username'])) {
     $username = $user->getUsername();
 }
 
-include "L6/view/index.php";
+include "L7/view/index.php";
