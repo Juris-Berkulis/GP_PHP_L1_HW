@@ -2,6 +2,7 @@
 require_once 'L8/model/User.php';
 include_once 'L8/model/Task.php';
 include_once 'L8/model/TaskProvider.php';
+include_once 'L8/exceptions/ExceptionTaskIsEmpty.php';
 
 session_start();
 
@@ -41,6 +42,11 @@ var_dump($tasks);
 
 if (isset($_GET['action']) && $_GET['action'] === 'addTask' && isset($_POST['newTaskDescription'])) {
     $newTaskDescriptionSafe = strip_tags($_POST['newTaskDescription']);
+
+    if (!$newTaskDescriptionSafe) {
+        throw new ExceptionTaskIsEmpty('Новая задача не имеет названия');
+    }
+
     $task = new Task($newTaskDescriptionSafe);
     $taskProvider->addTask($task, $user->getId());
 

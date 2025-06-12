@@ -19,6 +19,11 @@ try {
     var_dump($exception);
 
     $logger->log($exception);
+} catch (ExceptionTaskIsEmpty $exception) {
+    echo 'Кастомная ошибка!';
+    var_dump($exception);
+
+    $logger->log($exception);
 } catch (Exception $exception) {
     echo 'Неизвестное исключение!';
     var_dump($exception);
