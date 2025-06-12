@@ -14,10 +14,9 @@ class Logger
         $fullFileName = "L8/errors/$this->fileName.log";
         $date = new DateTime();
         $dateFormatted = $date->format('Y-m-d H:i:s');
-        $errorCode = $error->getCode() ? $error->getCode() : 'нет';
 
         $logMessage = "$dateFormatted:\n";
-        $logMessage .= "code: $errorCode; message: {$error->getMessage()}\n";
+        $logMessage .= "code: \"{$error->getCode()}\"; message: {$error->getMessage()}\n";
         $logMessage .= "file: {$error->getFile()}:{$error->getLine()}\n";
         $logMessage .= "trace: {$error->getTraceAsString()}\n";
         $logMessage .= "\n======================\n\n";
