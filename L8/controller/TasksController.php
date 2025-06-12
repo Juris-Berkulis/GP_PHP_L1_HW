@@ -5,9 +5,7 @@ include_once 'L8/model/TaskProvider.php';
 
 session_start();
 
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
+var_dump($_SESSION);
 
 $pageHeader = "Задачи";
 
@@ -38,6 +36,8 @@ if (isset($_GET['showTasks']) && $_GET['showTasks'] === 'undone') {
 if (isset($_GET['showTasks']) && $_GET['showTasks'] === 'done') {
     $tasks = $taskProvider->getDoneList($user->getId());
 }
+
+var_dump($tasks);
 
 if (isset($_GET['action']) && $_GET['action'] === 'addTask' && isset($_POST['newTaskDescription'])) {
     $newTaskDescriptionSafe = strip_tags($_POST['newTaskDescription']);
