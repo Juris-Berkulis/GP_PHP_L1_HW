@@ -1,7 +1,7 @@
 <?php
-require_once 'L7/model/User.php';
-include_once 'L7/model/Task.php';
-include_once 'L7/model/TaskProvider.php';
+require_once 'L8/model/User.php';
+include_once 'L8/model/Task.php';
+include_once 'L8/model/TaskProvider.php';
 
 session_start();
 
@@ -14,7 +14,7 @@ $pageHeader = "Задачи";
 $user = null;
 $username = null;
 
-$pdo = include 'L7/db.php';
+$pdo = include 'L8/db.php';
 
 $taskProvider = new TaskProvider($pdo);
 
@@ -66,4 +66,4 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
     die();
 }
 
-include "L7/view/tasks.php";
+include "L8/view/tasks.php";

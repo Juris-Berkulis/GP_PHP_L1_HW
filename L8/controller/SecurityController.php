@@ -1,10 +1,10 @@
 <?php
-require_once 'L7/model/User.php';
-require_once 'L7/model/UserProvider.php';
+require_once 'L8/model/User.php';
+require_once 'L8/model/UserProvider.php';
 
 session_start();
 
-$pdo = include 'L7/db.php';
+$pdo = include 'L8/db.php';
 
 $error = null;
 
@@ -32,4 +32,4 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     die();
 }
 
-include "L7/view/signin.php";
+include "L8/view/signin.php";

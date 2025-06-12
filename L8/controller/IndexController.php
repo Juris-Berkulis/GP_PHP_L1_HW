@@ -1,5 +1,5 @@
 <?php
-require_once 'L7/model/User.php';
+require_once 'L8/model/User.php';
 
 session_start();
 
@@ -16,4 +16,4 @@ if (isset($_SESSION['username'])) {
     $username = $user->getUsername();
 }
 
-include "L7/view/index.php";
+include "L8/view/index.php";
